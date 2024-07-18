@@ -60,63 +60,65 @@ export default function Page({ params }: { params: { id: string } }) {
   ];
 
   return (
-    <div className="max-w-7xl flex w-full my-8 text-slate-400 m-4">
+    <div className="max-w-7xl flex flex-col w-full my-8 text-slate-400 m-4">
       <div className="flex w-full justify-between">
-        <div className="flex flex-col bg-slate-700  p-4 gap-3">
-          <div className="flex">
-            <div>profile image</div>
-            <div className="flex flex-col">
-              <span className="text-2xl">Prashant Yadav</span>
-              <span>@karneel</span>
+        <div className="flex gap-12">
+          <div className="flex flex-col bg-slate-700  p-4 gap-3">
+            <div className="flex">
+              <div>profile image</div>
+              <div className="flex flex-col">
+                <span className="text-2xl">Prashant Yadav</span>
+                <span>@karneel</span>
+              </div>
+            </div>
+            <div className="flex gap-1 items-center">
+              <CiLocationOn /> location
+            </div>
+            <div className="flex gap-1 items-center">
+              <FaGraduationCap /> education
+            </div>
+            <div className="flex gap-1 items-center">
+              <TfiEmail /> Email
+            </div>
+            <div className="flex gap-1 items-center">
+              <CiGlobe /> website
+            </div>
+            <div className="flex gap-1 items-center">
+              <CiLinkedin /> linkedin
+            </div>
+            <div className="flex gap-1 items-center">
+              <FaGithubAlt /> github
             </div>
           </div>
-          <div className="flex gap-1 items-center">
-            <CiLocationOn /> location
-          </div>
-          <div className="flex gap-1 items-center">
-            <FaGraduationCap /> education
-          </div>
-          <div className="flex gap-1 items-center">
-            <TfiEmail /> Email
-          </div>
-          <div className="flex gap-1 items-center">
-            <CiGlobe /> website
-          </div>
-          <div className="flex gap-1 items-center">
-            <CiLinkedin /> linkedin
-          </div>
-          <div className="flex gap-1 items-center">
-            <FaGithubAlt /> github
-          </div>
-        </div>
-        <div className="flex bg-slate-700 p-10 gap-8 overflow-visible">
-          <PieChart
-            series={[
-              {
-                innerRadius: 70,
-                data: data,
-                cx: 100,
-                cornerRadius: 10,
-                paddingAngle: 1,
-                outerRadius: 80,
-              },
-            ]}
-            height={200}
-            width={200}
-            slotProps={{ legend: { hidden: true } }}
-            className="m-0 p-0"
-          >
-            <PieCenterLabel>200</PieCenterLabel>
-          </PieChart>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
-              <div className="text-green-600">Easy</div> <div>120</div>
-            </div>
-            <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
-              <div className="text-amber-500">Medium</div> <div>120</div>
-            </div>
-            <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
-              <div className="text-red-600">Hard</div> <div>120</div>
+          <div className="flex bg-slate-700 p-10 gap-8 overflow-visible">
+            <PieChart
+              series={[
+                {
+                  innerRadius: 70,
+                  data: data,
+                  cx: 100,
+                  cornerRadius: 10,
+                  paddingAngle: 1,
+                  outerRadius: 80,
+                },
+              ]}
+              height={200}
+              width={200}
+              slotProps={{ legend: { hidden: true } }}
+              className="m-0 p-0"
+            >
+              <PieCenterLabel>200</PieCenterLabel>
+            </PieChart>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
+                <div className="text-green-600">Easy</div> <div>120</div>
+              </div>
+              <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
+                <div className="text-amber-500">Medium</div> <div>120</div>
+              </div>
+              <div className="flex flex-col bg-slate-950 p-2 rounded-md w-20 justify-center items-center">
+                <div className="text-red-600">Hard</div> <div>120</div>
+              </div>
             </div>
           </div>
         </div>
@@ -141,6 +143,23 @@ export default function Page({ params }: { params: { id: string } }) {
               <div>80</div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="flex gap-12">
+        <div className="flex flex-col gap-5 justify-between w-4/12">
+          <div>Leetcode</div>
+          <div>rating</div>
+          <div>chart</div>
+        </div>
+        <div className="flex flex-col gap-5 justify-between w-4/12">
+          <div>Leetcode</div>
+          <div>rating</div>
+          <div>chart</div>
+        </div>
+        <div className="flex flex-col gap-5 justify-between w-4/12">
+          <div>Leetcode</div>
+          <div>rating</div>
+          <div>chart</div>
         </div>
       </div>
     </div>

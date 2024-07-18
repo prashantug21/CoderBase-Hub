@@ -1,115 +1,25 @@
-import https from "https";
-import axios from "axios"
+const { LeetCode } = require('leetcode-query');
 
-async function leetcode_u (handle) {
-  if (!handle) {
-    return null;
-  }
-  const url = "https://leetcode.com/graphql";
+const leetcode = async (handle) => {
+    const leetcode1 = new LeetCode();
 
-  const query = {
-    operationName: "getContentRankingData",
-    variables: { username: handle },
-    query: `
-      query getContentRankingData($username: String!) {
-        userContestRanking(username: $username) {
-          attendedContestsCount
-          rating
-          badge {
-            name
-          }
-          globalRanking
-          __typename
+    try {
+        const userInfo = await leetcode1.user(handle);
+        if (!userInfo.matchedUser) {
+            throw new Error('User not found');
         }
-        matchedUser(username: $username) {
-          submitStats {
-            acSubmissionNum {
-              difficulty
-              count
-              submissions
-            }
-          }
-        }
-      }
-    `,
-  };
-  const response = axios({
-    url: url,
-    method: 'get',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: query
-  });
-  return response;
-  return new Promise((resolve, reject) => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
 
-    const request = https.request(url, options, (response) => {
-      let data = "";
+        const userContestData = await leetcode1.user_contest_info(handle);
+        const contestData = userContestData.userContestRankingHistory.filter(contest => contest.attended);
 
-      response.on("data", (chunk) => {
-        data += chunk;
-      });
+        return {
+            ...userInfo,
+            userContestRankingHistory: contestData,
+        };
+    } catch (error) {
+        console.error('Error fetching LeetCode data:', error.message);
+        throw new Error('Error fetching LeetCode data');
+    }
+};
 
-      response.on("end", () => {
-        try {
-          const userInfo = JSON.parse(data);
-          console.log("OKKKKKKKKK", userInfo);
-          // console.log(userInfo.data.userContestRanking.badge);
-          if (userInfo.data?.userContestRanking === undefined || userInfo.data?.userContestRanking === null) {
-            // userInfo.data = userContestRanking;
-            userInfo.data.userContestRanking = {
-              attendedContestsCount: 0,
-              rating: 0,
-              globalRanking: 0,
-            };
-          }
-          if([null,undefined].includes(userInfo.data?.matchedUser)){
-            userInfo.data.userContestRanking = {
-              ...userInfo.data.userContestRanking,
-              totalQuestions:0,
-              easyQuestions:0,
-              mediumQuestions:0,
-              hardQuestions:0
-            }
-          }else if(Object.hasOwn(userInfo.data?.matchedUser,'submitStats')){
-            const {submitStats:{acSubmissionNum:[all,easy,medium,hard]}} = userInfo.data?.matchedUser;
-            userInfo.data.userContestRanking = {
-              ...userInfo.data.userContestRanking,
-              totalQuestions:all.count,
-              easyQuestions:easy.count,
-              mediumQuestions:medium.count,
-              hardQuestions:hard.count
-            }
-            
-          }
-          console.log(userInfo)
-          userInfo.data.userContestRanking.rank = userInfo.data.userContestRanking?.badge?.name || "none";
-          userInfo.data.userContestRanking.handle = handle;
-
-          //   console.log("HERRRREEEEE:",userInfo.data.userContestRanking);
-          resolve(userInfo.data.userContestRanking);
-        } catch (error) {
-          console.log("Error parsing JSON:", error);
-          resolve({});
-        }
-      });
-    });
-
-    request.on("error", (error) => {
-      console.log("Error getting user info:", error);
-      reject(error);
-    });
-
-    request.write(JSON.stringify(query));
-    request.end();
-  });
-}
-
-export { leetcode_u };
+module.exports =  leetcode;
