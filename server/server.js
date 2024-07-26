@@ -18,13 +18,13 @@ router.get('/', (req, res) => {
     res.json({hello:"Hello World"});
 });
 
-router.post("/login",body('email').isEmail().withMessage('Please enter a valid email'),body('userid').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 4, max: 20 }).withMessage('Username must be at least 4 characters long and no more than 20 characters long'),body('name').isLength({ min: 4, max: 30 }).withMessage('Name must be at least 4 characters long and no more than 30 characters long') ,login);
+router.post("/login",body('email').isEmail().withMessage('Please enter a valid email') ,login);
 
 router.post("/signup",body('email').isEmail().withMessage('Please enter a valid email'),body('userid').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 4, max: 20 }).withMessage('Username must be at least 4 characters long and no more than 20 characters long'),body('name').isLength({ min: 4, max: 30 }).withMessage('Name must be at least 4 characters long and no more than 30 characters long'),signup);
 
 router.get("/profile",authenticateToken,body('userid').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 4, max: 20 }).withMessage('Username must be at least 4 characters long and no more than 20 characters long'),profile);
 
-router.post("/sendOTP",body('email').isEmail().withMessage('Please enter a valid email'),body('userid').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 4, max: 20 }).withMessage('Username must be at least 4 characters long and no more than 20 characters long'),body('name').isLength({ min: 4, max: 30 }).withMessage('Name must be at least 4 characters long and no more than 30 characters long'),sendOTP);
+router.post("/sendOTP",body('email').isEmail().withMessage('Please enter a valid email'),sendOTP);
 
 router.put("/edit",authenticateToken,body('userid').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 4, max: 20 }).withMessage('Username must be at least 4 characters long and no more than 20 characters long'),edit);
 

@@ -13,8 +13,8 @@ export default function Navbar() {
             <div className="flex flex-row justify-between items-center">
                 <div className="flex flex-row gap-2 items-center">
                     {/* <Link href="/" className="text-2xl font-bold">Home</Link> */}
-                    <Link href="/potd" className="text-2xl font-bold hover:text-cyan-400 outline-none">POTD</Link>
-                    <Link href="/contest" className="text-2xl font-bold hover:text-cyan-400 outline-none">Contests</Link>
+                    {/* <Link href="/potd" className="text-2xl font-bold hover:text-cyan-400 outline-none">POTD</Link>
+                    <Link href="/contest" className="text-2xl font-bold hover:text-cyan-400 outline-none">Contests</Link> */}
                     <Link href="/login" className="text-lg font-bold bg-transparent border-4 px-4 py-2 rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900">Login</Link>
                     <span className="text-5xl">|</span>
                     <Link href="/signup" className="text-lg font-bold bg-transparent border-4 px-4 py-2 rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900">Sign Up</Link>

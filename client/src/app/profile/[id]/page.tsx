@@ -5,6 +5,7 @@ import { FaGraduationCap } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithubAlt } from "react-icons/fa";
+import {Avatar} from "@mui/material"
 import { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useDrawingArea } from "@mui/x-charts/hooks";
@@ -33,26 +34,17 @@ export default function Page({ params }: { params: { id: string } }) {
   const [leetdata, setLeetData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         try {
-  //             const result = await leetcode_u(params.id);
-  //             console.log(result);
-  //             setLeetData(result);
-  //             setLoading(false);
-  //         } catch (error: any) {
-  //             setError(error);
-  //             // console.log(error);
-  //             console.log("adf")
-  //             setLoading(false);
-  //         }
-  //     };
-  //     fetchData();
-  // }, [params.id]);
-
-  // if(loading){
-  //     return <div>loading</div>
-  // }
+  const [username,setUsername]=useState<String>("N/A")
+  const [name,setName]=useState("N/A")
+  const [codechefdata, setCodechefData] = useState<any>(null);
+  const [codeforcesdata, setCodeforcesData] = useState<any>(null);
+  const [gfgdata, setGfgData] = useState<any>(null);
+  const [location, setLocation] = useState("N/A");
+  const [email, setEmail] = useState("N/A");
+  const [linkedin, setLinkedin] = useState("N/A");
+  const [github, setGithub] = useState("N/A");
+  const [website, setWebsite] = useState("N/A");
+  const [education, setEducation] = useState("N/A");
   const data = [
     { label: "Easy", value: 80, color: "green" },
     { label: "Medium", value: 80, color: "orange" },
@@ -63,31 +55,31 @@ export default function Page({ params }: { params: { id: string } }) {
     <div className="max-w-7xl flex flex-col w-full my-8 text-slate-400 m-4">
       <div className="flex w-full justify-between">
         <div className="flex gap-12">
-          <div className="flex flex-col bg-slate-700  p-4 gap-3">
+          <div className="flex flex-col bg-slate-700  p-6 gap-3 min-w-96">
             <div className="flex">
-              <div>profile image</div>
+              <div className="m-4"><Avatar>{username.charAt(0)}</Avatar></div>
               <div className="flex flex-col">
-                <span className="text-2xl">Prashant Yadav</span>
-                <span>@karneel</span>
+                <span className="text-2xl">{name}</span>
+                <span>@{username}</span>
               </div>
             </div>
             <div className="flex gap-1 items-center">
-              <CiLocationOn /> location
+              <CiLocationOn /> {location}
             </div>
             <div className="flex gap-1 items-center">
-              <FaGraduationCap /> education
+              <FaGraduationCap /> {education}
             </div>
             <div className="flex gap-1 items-center">
-              <TfiEmail /> Email
+              <TfiEmail /> {email}
             </div>
             <div className="flex gap-1 items-center">
-              <CiGlobe /> website
+              <CiGlobe /> {website}
             </div>
             <div className="flex gap-1 items-center">
-              <CiLinkedin /> linkedin
+              <CiLinkedin /> {linkedin}
             </div>
             <div className="flex gap-1 items-center">
-              <FaGithubAlt /> github
+              <FaGithubAlt /> {github}
             </div>
           </div>
           <div className="flex bg-slate-700 p-10 gap-8 overflow-visible">
@@ -97,8 +89,8 @@ export default function Page({ params }: { params: { id: string } }) {
                   innerRadius: 70,
                   data: data,
                   cx: 100,
-                  cornerRadius: 10,
-                  paddingAngle: 1,
+                  cornerRadius: 0,
+                  paddingAngle: 0,
                   outerRadius: 80,
                 },
               ]}
@@ -129,17 +121,17 @@ export default function Page({ params }: { params: { id: string } }) {
               <div>80</div>
             </div>
             <div className="p-10 w-52 bg-slate-700 py-12 flex flex-col items-center">
-              <div>Leetcode</div>
+              <div>Codechef</div>
               <div>80</div>
             </div>
           </div>
           <div className="flex gap-5">
             <div className="bg-slate-700 w-52 p-10 py-12 flex flex-col items-center">
-              <div>Leetcode</div>
+              <div>Codeforces</div>
               <div>80</div>
             </div>
             <div className="bg-slate-700 w-52 p-10 py-12 flex flex-col items-center">
-              <div>Leetcode</div>
+              <div>GFG</div>
               <div>80</div>
             </div>
           </div>

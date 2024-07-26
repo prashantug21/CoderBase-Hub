@@ -10,8 +10,9 @@ function generateOTP() {
 }
 
 // Function to send OTP via email
-async function otp(email,userid) {
+async function otp(email) {
     try {
+        console.log(email);
         const otp = generateOTP(); // Generate OTP
         const message = `Your OTP is: ${otp}`; 
         await resend.emails.send({
@@ -22,14 +23,15 @@ async function otp(email,userid) {
         });
         // check if otp already exists
         // console.log("user3id",userid);
-        const rs = await sql`select * from otp where user_id=${userid}`;
+        const rs = await sql`select * from otp where email = ${email}`;
         if (rs.length > 0) {
             // console.log(1)
-            await sql`update otp set otp_code=${otp} where user_id=${userid}`;
+            await sql`update otp set otp_code=${otp} where email = ${email}`;
             return "success";
         } 
-        await sql`insert into otp (user_id,email,otp_code) values (${userid},${email},${otp})`;
+        await sql`insert into otp (email,otp_code) values (${email},${otp})`;
         console.log(`OTP sent to ${email}`);
+        console.log(otp);
         return "success"; 
     } catch (error) {
         console.error('Error sending OTP:', error);
