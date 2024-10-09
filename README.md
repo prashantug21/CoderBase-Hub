@@ -10,8 +10,6 @@ CoderBase Hub is a full-stack web application that allows users to track, analyz
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-  - [Client](#client)
-  - [Server](#server)
 - [Running the Project](#running-the-project)
   - [Development](#development)
 

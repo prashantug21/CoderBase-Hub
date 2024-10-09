@@ -134,6 +134,7 @@ export default function Page() {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: JSON.stringify({ userid: user.userid, name: user.name, email: user.email, otp_code: otp }),
 
         });

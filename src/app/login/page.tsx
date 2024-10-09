@@ -99,8 +99,9 @@ export default function Page() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "credentials": "include",
+        
       },
+      credentials: "include",
       body: JSON.stringify({ email: user.email, otp: otp }),
       
     });
