@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
-import sql from '../../../config/database'; // Adjust the path if needed
+import sql from '@/config/database'; // Adjust the path if needed
 
 export async function POST(req: NextRequest) {
   try {

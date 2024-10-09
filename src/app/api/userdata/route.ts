@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt, { JwtPayload } from 'jsonwebtoken'; // Using jwt for token verification
-import sql from '../../../config/database'; // Adjust the path accordingly
+import sql from '@/config/database'; // Adjust the path accordingly
 import leetcode from '../component/profiles/leetcode'; // Adjust paths accordingly
 import codechef from '../component/profiles/codechef';
 import codeforces from '../component/profiles/codeforce';

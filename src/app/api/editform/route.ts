@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import sql from "../../../config/database";
+import sql from '@/config/database'
 import jwt from "jsonwebtoken";
 
 export async function PUT(req: NextRequest) {

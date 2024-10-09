@@ -1,5 +1,5 @@
 const {Resend}=require('resend')
-const sql=require('../config/database.js');
+import sql from '@/config/database'
 const resend = new Resend(process.env.EMAIL_API_KEY);
 
 
@@ -38,4 +38,4 @@ async function otp(email:string) {
     }
 }
 
-module.exports =  otp ;
+export default  otp ;
