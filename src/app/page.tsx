@@ -1,7 +1,14 @@
+"use client"
 import Link from "next/link";
 import "./css/home.css";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContext";
 
 export default function Home() {
+  const context = useContext(UserContext);
+
+  
+
   return (
     <main className="w-full flex flex-col p-8 items-center justify-center my-4 text-center  min-h-screen">
       <div className="lg:text-8xl md:text-6xl text-4xl font-bold text-white mb-8">
@@ -16,7 +23,7 @@ export default function Home() {
         </p>
       </div>
       <div className="flex flex-col items-center gap-4">
-        <Link href="/login" className="text-lg font-bold bg-transparent border-4 px-6 py-3 rounded-full border-white text-white shadow-lg hover:bg-white hover:text-teal-500 transition-colors">
+        <Link href={`${(context?.userData?.userid)?"/profile/"+context?.userData?.userid:"/login"}`} className="text-lg font-bold bg-transparent border-4 px-6 py-3 rounded-full border-white text-white shadow-lg hover:bg-white hover:text-teal-500 transition-colors">
           View Profile
         </Link>
         {/* <Link href="/login" className="text-lg font-bold bg-transparent border-4 px-6 py-3 rounded-full border-white text-white shadow-lg hover:bg-white hover:text-teal-500 transition-colors">
