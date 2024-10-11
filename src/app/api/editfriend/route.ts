@@ -11,7 +11,7 @@ export async function PUT(req: NextRequest) {
     const cookieStore = cookies();
     const token = cookieStore.get("jwt")?.value;
 
-    // console.log(token)
+    // // console.log(token)
 
     if (!token) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest) {
 
         // If friends array is empty or null, initialize it as an empty array
         const updatedFriends = friendData;
-        // console.log(updatedFriends);
+        // // console.log(updatedFriends);
 
         // Update the friends array in the database
         await sql`UPDATE users 

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     // Parse the JSON body
     const { userid, name, email, otp_code }: SignupRequestBody = await req.json();
-    console.log(userid, name, email, otp_code);
+    // console.log(userid, name, email, otp_code);
     // Combine email check and OTP validation in one query
     const rs = await sql`
 SELECT * 
@@ -33,7 +33,7 @@ OR (otp.email = ${email} AND otp.otp_code = ${otp_code} AND otp.created_at >= no
     `;
 
     // Check if the email already exists in the users table
-    console.log(rs);
+    // console.log(rs);
     if (rs.some((row:any) => row.user_id)) {
       return NextResponse.json({ error: "Email already exists" }, { status: 400 });
     }

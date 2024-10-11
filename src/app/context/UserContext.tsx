@@ -4,7 +4,7 @@ import React, { createContext, useState, useEffect, ReactNode } from "react";
 export const UserContext = createContext<{ userData: any } | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [userData, setUserData] = useState<any>({msg: "Loading..."});
+  const [userData, setUserData] = useState<any>({ msg: "Loading..." });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,14 +20,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         if (res.status === 200) {
           const data = await res.json();
           setUserData(data);
-          console.log("Fetched user data:", data);
+          // console.log("Fetched user data:", data);
         } else {
           setUserData({ failed: "Error fetching user data" });
-          console.log("Error fetching user data");
+          // console.log("Error fetching user data");
         }
       } catch (err) {
         setUserData({ failed: "Error fetching user data" });
-        console.log("Fetch error: ", err);
+        // console.log("Fetch error: ", err);
       }
     };
 

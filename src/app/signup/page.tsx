@@ -128,7 +128,7 @@ export default function Page() {
         if (c.email || c.name || c.userid || c.otp) {
             return
         }
-        
+
         const response = await fetch("/api/signup", {
             method: "POST",
             headers: {
@@ -175,7 +175,7 @@ export default function Page() {
         if (c.email || c.name || c.userid) {
             return
         }
-        console.log(user)
+        // console.log(user)
         setotpsent(true);
         //fetch promise
         toast.loading('Sending OTP...');

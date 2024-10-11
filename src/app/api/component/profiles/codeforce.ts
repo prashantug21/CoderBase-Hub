@@ -20,7 +20,7 @@ const codeforces = async (handle: string): Promise<CodeforcesData | string> => {
       axios.get(problemURL),
       axios.get(ratingURL),
     ]);
-    // console.log(problemResponse.data)
+    // // console.log(problemResponse.data)
     // Check if both responses are successful
     if (problemResponse.data.status === 'OK' && ratingResponse.data.status === 'OK') {
       // Filter solved problems with verdict "OK"

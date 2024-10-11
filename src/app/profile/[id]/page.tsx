@@ -27,34 +27,34 @@ function PieCenterLabel({ children }: { children: React.ReactNode }) {
   );
 }
 function formatDate(timestamp: number): string {
-  // console.log(timestamp);
+  // // console.log(timestamp);
   if (isNaN(timestamp)) {
-    console.log(timestamp);
+    // console.log(timestamp);
     return "";
   }
   const dateObj = new Date(timestamp * 1000); // Convert from seconds to milliseconds
-  const month   = dateObj.getUTCMonth() + 1; // months from 1-12
-const day     = dateObj.getUTCDate();
-const year    = dateObj.getUTCFullYear();
+  const month = dateObj.getUTCMonth() + 1; // months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
 
-const newDate = year + "/" + month + "/" + day;
-  // if(isNaN(dateString)){console.log(dateString);} 
-  // console.log(dateString);
+  const newDate = year + "/" + month + "/" + day;
+  // if(isNaN(dateString)){// console.log(dateString);} 
+  // // console.log(dateString);
   return newDate; // Extract "YYYY-MM-DD" from ISO string
 }
 function formatDate1(timestamp: Date): string {
-  // console.log(timestamp);
+  // // console.log(timestamp);
   // if (isNaN(timestamp)) {
-  //   console.log(timestamp);
+  //   // console.log(timestamp);
   //   return "";
   // }
   const dateObj = timestamp; // Convert from seconds to milliseconds
-  const month   = dateObj.getUTCMonth() + 1; // months from 1-12
-const day     = dateObj.getUTCDate();
-const year    = dateObj.getUTCFullYear();
+  const month = dateObj.getUTCMonth() + 1; // months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
 
-const newDate = year + "/" + month + "/" + day;
-  return newDate; 
+  const newDate = year + "/" + month + "/" + day;
+  return newDate;
 }
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -96,16 +96,16 @@ export default function Page({ params }: { params: { id: string } }) {
     if (data?.leetdata) {
       const leetcodeData = data.leetdata;
       const history = leetcodeData.history || [];
-      console.log("Leetcode");
+      // console.log("Leetcode");
       const xaxis = history.map((item: any) => {
-        
+
         return formatDate(item.contest.startTime);
       });
       const yaxis = history.map((item: any) => {
         return Math.round(item.rating);
       });
       const xLabel = history.map((item: any) => item.contest.title);
-      console.log(xaxis)
+      // console.log(xaxis)
       setLeetcode({
         handle: data?.leetdata?.handle || "",
         total: data?.leetdata?.total || 0,
@@ -119,12 +119,12 @@ export default function Page({ params }: { params: { id: string } }) {
       });
     }
     if (data?.codeforcesdata) {
-      console.log("codeforces")
+      // console.log("codeforces")
       const history = data.codeforcesdata.history || [];
       const xaxis = history.map((item: any) => { return formatDate(item.ratingUpdateTimeSeconds); }); // example
       const yaxis = history.map((item: any) => item.newRating); // example
       const xLabel = history.map((item: any) => item.contestName);
-      console.log(xaxis)
+      // console.log(xaxis)
       setCodeforces({
         handle: data?.codeforcesdata?.handle || "",
         total: data?.codeforcesdata?.total || 0,
@@ -136,16 +136,16 @@ export default function Page({ params }: { params: { id: string } }) {
         yaxis: yaxis,
         xLabel: xLabel
       });
-      // console.log(codeforces.xaxis)
+      // // console.log(codeforces.xaxis)
     }
     if (data?.codechefdata) {
-      console.log("codechef")
+      // console.log("codechef")
 
       const history = data.codechefdata.history || [];
       const xaxis = history.map((item: any) => formatDate1(new Date(item.end_date))); // example
       const yaxis = history.map((item: any) => item.rating); // example
       const xLabel = history.map((item: any) => item.name);  // example
-      console.log(xaxis)
+      // console.log(xaxis)
       setCodechef({
         handle: data?.codechefdata?.handle || "",
         rating: data?.codechefdata?.rating || 0,
@@ -153,7 +153,7 @@ export default function Page({ params }: { params: { id: string } }) {
         yaxis: yaxis,
         xLabel: xLabel
       });
-      // console.log(codechef.xaxis)
+      // // console.log(codechef.xaxis)
     }
 
 
@@ -344,29 +344,29 @@ export default function Page({ params }: { params: { id: string } }) {
               xAxis={[{ data: leetcode.xaxis, scaleType: 'point' }]}
               sx={{
                 //change left yAxis label styles
-               "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel":{
-                strokeWidth:"0.4",
-                fill:"#d1e0e0"
-               },
-               // change all labels fontFamily shown on both xAxis and yAxis
-               "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel":{
-                   fontFamily: "Roboto",
+                "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // change all labels fontFamily shown on both xAxis and yAxis
+                "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel": {
+                  fontFamily: "Roboto",
                 },
                 // change bottom label styles
-                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel":{
-                    strokeWidth:"0.4",
-                    fill:"#d1e0e0"
-                 },
-                  // bottomAxis Line Styles
-                 "& .MuiChartsAxis-bottom .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 },
-                 // leftAxis Line Styles
-                 "& .MuiChartsAxis-left .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 }
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // bottomAxis Line Styles
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                },
+                // leftAxis Line Styles
+                "& .MuiChartsAxis-left .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                }
               }} />
           </div>
         </div>
@@ -380,29 +380,29 @@ export default function Page({ params }: { params: { id: string } }) {
               xAxis={[{ data: codeforces.xaxis, scaleType: 'point' }]}
               sx={{
                 //change left yAxis label styles
-               "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel":{
-                strokeWidth:"0.4",
-                fill:"#d1e0e0"
-               },
-               // change all labels fontFamily shown on both xAxis and yAxis
-               "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel":{
-                   fontFamily: "Roboto",
+                "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // change all labels fontFamily shown on both xAxis and yAxis
+                "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel": {
+                  fontFamily: "Roboto",
                 },
                 // change bottom label styles
-                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel":{
-                    strokeWidth:"0.4",
-                    fill:"#d1e0e0"
-                 },
-                  // bottomAxis Line Styles
-                 "& .MuiChartsAxis-bottom .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 },
-                 // leftAxis Line Styles
-                 "& .MuiChartsAxis-left .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 }
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // bottomAxis Line Styles
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                },
+                // leftAxis Line Styles
+                "& .MuiChartsAxis-left .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                }
               }} />
           </div>
         </div>
@@ -413,105 +413,105 @@ export default function Page({ params }: { params: { id: string } }) {
               { data: codechef.yaxis }
             ]}
               //hide x-axis
-              xAxis={[{ data: codechef.xaxis,scaleType: 'point' }]} 
+              xAxis={[{ data: codechef.xaxis, scaleType: 'point' }]}
               sx={{
                 //change left yAxis label styles
-               "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel":{
-                strokeWidth:"0.4",
-                fill:"#d1e0e0"
-               },
-               // change all labels fontFamily shown on both xAxis and yAxis
-               "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel":{
-                   fontFamily: "Roboto",
+                "& .MuiChartsAxis-left .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // change all labels fontFamily shown on both xAxis and yAxis
+                "& .MuiChartsAxis-tickContainer .MuiChartsAxis-tickLabel": {
+                  fontFamily: "Roboto",
                 },
                 // change bottom label styles
-                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel":{
-                    strokeWidth:"0.4",
-                    fill:"#d1e0e0"
-                 },
-                  // bottomAxis Line Styles
-                 "& .MuiChartsAxis-bottom .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 },
-                 // leftAxis Line Styles
-                 "& .MuiChartsAxis-left .MuiChartsAxis-line":{
-                  stroke:"#d1e0e0",
-                  strokeWidth:0.4
-                 }
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-tickLabel": {
+                  strokeWidth: "0.4",
+                  fill: "#d1e0e0"
+                },
+                // bottomAxis Line Styles
+                "& .MuiChartsAxis-bottom .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                },
+                // leftAxis Line Styles
+                "& .MuiChartsAxis-left .MuiChartsAxis-line": {
+                  stroke: "#d1e0e0",
+                  strokeWidth: 0.4
+                }
               }} />
           </div>
         </div>
         <div className="flex flex-col bg-slate-700 w-full p-6 gap-3">
-  <div className="text-3xl font-bold mb-4 flex w-full justify-between items-center">
-    <div>Friends</div>
-    <div>
-      <Link
-        href="/friends"
-        className="text-lg font-bold bg-transparent border-4 px-4 py-2 text-center rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900"
-      >
-        Edit Friends
-      </Link>
-    </div>
-  </div>
-  <div className="overflow-x-auto">
-    <table className="min-w-full text-left text-md text-slate-400">
-      <thead className="bg-slate-800 text-slate-300">
-        <tr>
-          <th className="py-2 px-4">Friend</th>
-          <th className="py-2 px-4">LeetCode</th>
-          <th className="py-2 px-4">Codeforces</th>
-          <th className="py-2 px-4">CodeChef</th>
-          <th className="py-2 px-4">GeeksforGeeks</th>
-        </tr>
-      </thead>
-      <tbody className="bg-slate-700">
-        {context?.userData?.friends?.map((friend:any, index:any) => (
-          <tr key={index} className="hover:bg-slate-600">
-            <td className="py-2 px-4">{friend.name}</td>
-            <td className="py-2 px-4">
+          <div className="text-3xl font-bold mb-4 flex w-full justify-between items-center">
+            <div>Friends</div>
+            <div>
               <Link
-                href={`https://leetcode.com/${friend.leetcode}/`}
-                target="_blank"
-                className="text-cyan-400 hover:text-cyan-300"
+                href="/friends"
+                className="text-lg font-bold bg-transparent border-4 px-4 py-2 text-center rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900"
               >
-                {friend.leetcode || "N/A"}
+                Edit Friends
               </Link>
-            </td>
-            <td className="py-2 px-4">
-              <Link
-                href={`https://codeforces.com/profile/${friend.codeforces}/`}
-                target="_blank"
-                className="text-cyan-400 hover:text-cyan-300"
-              >
-                {friend.codeforces || "N/A"}
-              </Link>
-            </td>
-            <td className="py-2 px-4">
-              <Link
-                href={`https://www.codechef.com/users/${friend.codechef}/`}
-                target="_blank"
-                className="text-cyan-400 hover:text-cyan-300"
-              >
-                {friend.codechef || "N/A"}
-              </Link>
-            </td>
-            <td className="py-2 px-4">
-              <Link
-                href={`https://auth.geeksforgeeks.org/user/${friend.gfg}/profile`}
-                target="_blank"
-                className="text-cyan-400 hover:text-cyan-300"
-              >
-                {friend.gfg || "N/A"}
-              </Link>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
-        
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-md text-slate-400">
+              <thead className="bg-slate-800 text-slate-300">
+                <tr>
+                  <th className="py-2 px-4">Friend</th>
+                  <th className="py-2 px-4">LeetCode</th>
+                  <th className="py-2 px-4">Codeforces</th>
+                  <th className="py-2 px-4">CodeChef</th>
+                  <th className="py-2 px-4">GeeksforGeeks</th>
+                </tr>
+              </thead>
+              <tbody className="bg-slate-700">
+                {context?.userData?.friends?.map((friend: any, index: any) => (
+                  <tr key={index} className="hover:bg-slate-600">
+                    <td className="py-2 px-4">{friend.name}</td>
+                    <td className="py-2 px-4">
+                      <Link
+                        href={`https://leetcode.com/${friend.leetcode}/`}
+                        target="_blank"
+                        className="text-cyan-400 hover:text-cyan-300"
+                      >
+                        {friend.leetcode || "N/A"}
+                      </Link>
+                    </td>
+                    <td className="py-2 px-4">
+                      <Link
+                        href={`https://codeforces.com/profile/${friend.codeforces}/`}
+                        target="_blank"
+                        className="text-cyan-400 hover:text-cyan-300"
+                      >
+                        {friend.codeforces || "N/A"}
+                      </Link>
+                    </td>
+                    <td className="py-2 px-4">
+                      <Link
+                        href={`https://www.codechef.com/users/${friend.codechef}/`}
+                        target="_blank"
+                        className="text-cyan-400 hover:text-cyan-300"
+                      >
+                        {friend.codechef || "N/A"}
+                      </Link>
+                    </td>
+                    <td className="py-2 px-4">
+                      <Link
+                        href={`https://auth.geeksforgeeks.org/user/${friend.gfg}/profile`}
+                        target="_blank"
+                        className="text-cyan-400 hover:text-cyan-300"
+                      >
+                        {friend.gfg || "N/A"}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
     // </div>

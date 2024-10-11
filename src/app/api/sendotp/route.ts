@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     // Parse the JSON body
     const { email } = await req.json();
 
-    console.log("Received email:", email);
+    // console.log("Received email:", email);
 
     const otps=await otp(email)
     if(otps==="success"){

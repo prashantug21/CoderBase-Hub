@@ -8,17 +8,17 @@ import { useRouter } from 'next/navigation';
 
 export default function page() {
     const context = useContext(UserContext);
-    const data=context?.userData;
+    const data = context?.userData;
     const [handles, setHandles] = useState({ leetcode: (data?.leetdata?.handle || ""), codechef: (data?.codechefdata?.handle || ""), codeforces: (data?.codeforcesdata?.handle || ""), gfg: (data?.gfgdata?.handle || "") });
-    const router=useRouter();
+    const router = useRouter();
     useEffect(() => {
-      if (!data?.userid) {
-        router.push('/login');
-      }
+        if (!data?.userid) {
+            router.push('/login');
+        }
     }, [data, router]);
 
     useEffect(() => {
-        if(data){
+        if (data) {
             setHandles({
                 leetcode: data?.leetdata?.handle || "",
                 codechef: data?.codechefdata?.handle || "",
@@ -26,9 +26,9 @@ export default function page() {
                 gfg: data?.gfgdata?.handle || ""
             });
         }
-    },[data])
-    async function submitEvent(){
-        console.log(handles)
+    }, [data])
+    async function submitEvent() {
+        // console.log(handles)
         const res = await fetch("/api/editform", {
             method: "PUT",
             headers: {
@@ -42,7 +42,7 @@ export default function page() {
             toast.success("Profile updated successfully");
             setHandles({ leetcode: "", codechef: "", codeforces: "", gfg: "" });
             window.location.href = "/";
-        }else{
+        } else {
             toast.error("Something went wrong");
         }
 
@@ -98,14 +98,14 @@ export default function page() {
                         />
                     </div>
                     <button
-              className="text-lg font-bold bg-transparent border-4 px-4 py-2 w-48 my-5 rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900"
-              onClick={(e) => {
-                e.preventDefault();
-                submitEvent();
-              }}
-            >
-              Submit
-            </button>
+                        className="text-lg font-bold bg-transparent border-4 px-4 py-2 w-48 my-5 rounded-3xl border-cyan-400 text-cyan-400 shadow-cyan-300 shadow-md hover:bg-cyan-400 hover:text-gray-900"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            submitEvent();
+                        }}
+                    >
+                        Submit
+                    </button>
                 </form>
                 <ToastContainer
                     position="top-right"
