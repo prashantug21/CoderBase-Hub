@@ -49,20 +49,30 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       friends: data.friends,
     };
 
-    // Fetch data from other platforms if handles exist
+    // Create an array of promises to fetch data concurrently
+    const platformPromises = [];
+
     if (data.leetcode_handle && data.leetcode_handle !== '') {
-      responseData.leetdata = await leetcode(data.leetcode_handle);
+      platformPromises.push(leetcode(data.leetcode_handle));
     }
     if (data.codechef_handle && data.codechef_handle !== '') {
-      responseData.codechefdata = await codechef(data.codechef_handle);
+      platformPromises.push(codechef(data.codechef_handle));
     }
-    
     if (data.codeforces_handle && data.codeforces_handle !== '') {
-      responseData.codeforcesdata = await codeforces(data.codeforces_handle);
+      platformPromises.push(codeforces(data.codeforces_handle));
     }
     if (data.gfg_handle && data.gfg_handle !== '') {
-      responseData.gfgdata = await gfg(data.gfg_handle);
+      platformPromises.push(gfg(data.gfg_handle));
     }
+
+    // Use Promise.all to fetch all platform data concurrently
+    const [leetData, codechefData, codeforcesData, gfgData] = await Promise.all(platformPromises);
+
+    // Add the fetched data to the response object
+    if (leetData) responseData.leetdata = leetData;
+    if (codechefData) responseData.codechefdata = codechefData;
+    if (codeforcesData) responseData.codeforcesdata = codeforcesData;
+    if (gfgData) responseData.gfgdata = gfgData;
 
     // Return the aggregated response
     return NextResponse.json(responseData, { status: 200 });

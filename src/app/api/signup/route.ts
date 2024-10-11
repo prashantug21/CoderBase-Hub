@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import sql from "../../../config/database";
+import sql from "@/config/database";
 import jwt from "jsonwebtoken";
 
 interface SignupRequestBody {
@@ -28,18 +28,18 @@ FROM users
 FULL OUTER JOIN otp 
 ON users.email = otp.email 
 WHERE (users.email = ${email}) 
-OR (otp.email = ${email} AND otp.otp_code = ${otp_code} AND otp.created_at >= now() - interval '100 minutes');
+OR (otp.email = ${email} AND otp.otp_code = ${otp_code} AND otp.created_at >= now() - interval '10 minutes');
 
     `;
 
     // Check if the email already exists in the users table
     console.log(rs);
-    if (rs.some(row => row.user_id)) {
+    if (rs.some((row:any) => row.user_id)) {
       return NextResponse.json({ error: "Email already exists" }, { status: 400 });
     }
 
     // Check if a valid OTP was returned
-    if (!rs.some(row => row.otp_code)) {
+    if (!rs.some((row:any) => row.otp_code)) {
       return NextResponse.json({ error: "Invalid or expired OTP" }, { status: 400 });
     }
 
