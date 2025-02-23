@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 export async function PUT(req: NextRequest) {
   try {
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get("jwt")?.value;
 
     if (!token) {
@@ -19,7 +19,7 @@ export async function PUT(req: NextRequest) {
     await sql`UPDATE users SET leetcode_handle = ${leetcode}, codechef_handle = ${codechef}, codeforces_handle = ${codeforces}, gfg_handle = ${gfg} WHERE email = ${email}`;
     return NextResponse.json({message:"Profile updated successfully",status:200});
   } catch (error) {
-    // console.error("Error processing request:", error);
+    console.error("Error processing request:", error);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

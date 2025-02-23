@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt, { JwtPayload } from 'jsonwebtoken'; // Using jwt for token verification
 import sql from '@/config/database'; // Adjust the path accordingly
-import leetcode from '../component/profiles/leetcode'; // Adjust paths accordingly
-import codechef from '../component/profiles/codechef';
-import codeforces from '../component/profiles/codeforce';
-import gfg from '../component/profiles/gfg';
+import { current } from '@reduxjs/toolkit';
+
 
 interface UserProfile {
   userid: number; // Adjust type according to your database schema
@@ -17,65 +15,149 @@ interface UserProfile {
   gfgdata?: any; // Define more specific types based on GFG return structure
 }
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    // Extract JWT from cookies
-    const cookieStore = cookies();
-    const token = cookieStore.get('jwt')?.value;
-
-    if (!token) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Verify the JWT token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-
-    if (!decoded || !decoded.email) {
-      return NextResponse.json({ message: 'Invalid token' }, { status: 403 });
-    }
-
-    const email = decoded.email;
-
-    // Fetch user from the database
-    const userResult = await sql`SELECT * FROM users WHERE email = ${email}`;
-    if (userResult.length === 0) {
-      return NextResponse.json({ message: 'User not found' }, { status: 404 });
-    }
-
-    const data = userResult[0];
-    const responseData: UserProfile = {
-      userid: data.user_id,
-      username: data.user_name,
-      friends: data.friends,
+    const {handle}=await req.json();
+    const urls = [
+      `https://codechef-api.vercel.app/${handle}`,
+      `https://codeforces.com/api/user.status?handle=${handle}`,
+      `https://codeforces.com/api/user.rating?handle=${handle}`,
+      `https://www.geeksforgeeks.org/gfg-assets/_next/data/-MBGrWa6UiS9evIlTHcyG/user/${handle}.json`
+    ];
+    
+    const leetcodeUrl = "https://leetcode.com/graphql/";
+    
+    const leetcodeQuery = {
+      operationName: "combinedUserInfo",
+      query: `
+        query combinedUserInfo($username: String!) {
+          userContestRankingHistory(username: $username) {
+            attended
+            rating
+            contest {
+              title
+              startTime
+            }
+          }
+          matchedUser(username: $username) {
+            submitStats {
+              acSubmissionNum {
+                count
+              }
+            }
+          }
+        }
+      `,
+      variables: { username: handle }
     };
 
-    // Create an array of promises to fetch data concurrently
-    const platformPromises = [];
 
-    if (data.leetcode_handle && data.leetcode_handle !== '') {
-      platformPromises.push(leetcode(data.leetcode_handle));
+     const [codechef,codeforces0,codeforces,gfg,leetcode] = await Promise.all([
+      ...urls.map(url => fetch(url).then(res => res.json()).catch(() => ({}))),
+      fetch(leetcodeUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leetcodeQuery)
+      }).then(res => res.json())
+    ]);
+    let codechefdata,codeforcesdata,gfgdata,leetcodedata;
+    if(codechef.success===false){
+      codechefdata={
+        status:"error",
+        message:"User not found"
+      }
+    }else{
+      codechefdata={
+        status:"ok",
+        currentRating:codechef.currentRating,
+        maxRating:codechef.maxRating,
+        contestHistory:codechef.ratingData.map((item: any) => ({
+          rating:item.rating,
+          contestName:item.name,
+          date:Date.parse(item.end_date),
+        }))
+      }
     }
-    if (data.codechef_handle && data.codechef_handle !== '') {
-      platformPromises.push(codechef(data.codechef_handle));
+    let maxRating=0,easy=0,medium=0,hard=0;
+    
+
+    if(codeforces.status==="OK"){
+      codeforces0.result.forEach((item: any) => {
+        if(item.verdict==="OK"){
+          if(item.problem.rating>maxRating){
+            maxRating=item.problem.rating
+          }
+          if(item.problem.rating<=1000){
+            easy+=1
+          }else if(item.problem.rating<=1600){
+            medium+=1
+          }else{
+            hard+=1
+          }
+        }
+      })
+      codeforcesdata={
+        status:"ok",
+        currentRating:codeforces.result[codeforces.result.length-1].newRating,
+        contestHistory:codeforces.result.map((item: any) =>{
+          return ({
+            rating:item.newRating,
+            contestName:item.contestName,
+            date:item.ratingUpdateTimeSeconds,
+          })
+        }),
+        maxRating:maxRating,
+        easy:easy,
+        medium:medium,
+        hard:hard,
+        total:easy+medium+hard
+        
+      }
+    }else{
+      codeforcesdata={
+        status:"error",
+        message:"User not found"
+      }
     }
-    if (data.codeforces_handle && data.codeforces_handle !== '') {
-      platformPromises.push(codeforces(data.codeforces_handle));
-    }
-    if (data.gfg_handle && data.gfg_handle !== '') {
-      platformPromises.push(gfg(data.gfg_handle));
+    maxRating=0;
+    if(gfg.pageProps?.userHandle!==undefined){
+      gfgdata={
+        status:"ok",
+        easy:Object.keys(gfg.pageProps.userSubmissionsInfo.Easy).length+Object.keys(gfg.pageProps.userSubmissionsInfo.Basic).length,
+        medium:Object.keys(gfg.pageProps.userSubmissionsInfo.Medium).length,
+        hard:Object.keys(gfg.pageProps.userSubmissionsInfo.Hard).length,
+        total:Object.keys(gfg.pageProps.userSubmissionsInfo.Easy).length+Object.keys(gfg.pageProps.userSubmissionsInfo.Basic).length+Object.keys(gfg.pageProps.userSubmissionsInfo.Medium).length+Object.keys(gfg.pageProps.userSubmissionsInfo.Hard).length,
+      }
+    }else{
+      gfgdata={
+        status:"error",
+        message:"User not found"
+      }
     }
 
-    // Use Promise.all to fetch all platform data concurrently
-    const [leetData, codechefData, codeforcesData, gfgData] = await Promise.all(platformPromises);
-
-    // Add the fetched data to the response object
-    if (leetData) responseData.leetdata = leetData;
-    if (codechefData) responseData.codechefdata = codechefData;
-    if (codeforcesData) responseData.codeforcesdata = codeforcesData;
-    if (gfgData) responseData.gfgdata = gfgData;
-
-    // Return the aggregated response
-    return NextResponse.json(responseData, { status: 200 });
+    if(leetcode?.error===undefined){
+      leetcodedata={
+        status:"ok",
+        easy:leetcode.data.matchedUser.submitStats.acSubmissionNum[1].count,
+        medium:leetcode.data.matchedUser.submitStats.acSubmissionNum[2].count,
+        hard:leetcode.data.matchedUser.submitStats.acSubmissionNum[3].count,
+        total:leetcode.data.matchedUser.submitStats.acSubmissionNum[0].count,
+        rating:leetcode.data.userContestRankingHistory[leetcode.data.userContestRankingHistory.length-1].rating,
+        contestHistory:leetcode.data.userContestRankingHistory.filter((item: any) => item.attended).map((item: any) => ({
+          rating:item.rating,
+          contestName:item.contest.title,
+          date:item.contest.startTime
+        })),
+      }
+    }else{
+      leetcodedata={
+        status:"error",
+        message:"User not found"
+      }
+    }
+    return NextResponse.json([codechefdata,codeforcesdata,gfgdata,leetcodedata], { status: 200 });
   } catch (error) {
     console.error('Error fetching user profile:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

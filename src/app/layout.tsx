@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./css/globals.css";
-import  Navbar  from "./component/navbar"
-import {UserProvider} from "./context/UserContext"
-// import {NextUIProvider} from "@nextui-org/react"
-const inter = Inter({ subsets: ["latin"] });
-
+import "./css/globals.scss";
+import {
+  ClerkProvider,
+} from '@clerk/nextjs'
+import ReduxProvider from "./Components/ReduxProvider";
+import QueryProvider from "./Components/QueryProvider";
+import Navbar from "./Components/Navbar";
 
 
 export const metadata: Metadata = {
@@ -24,15 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <UserProvider>
-        <div className="min-h-screen w-full flex flex-col">
-            <Navbar />
-            <main className="flex justify-center">{children}</main>
-          </div>
-        </UserProvider>
+    <ClerkProvider>
+
+      <html lang="en">
+        <body >
+          <ReduxProvider>
+            <QueryProvider>
+              <Navbar />
+              {children}
+            </QueryProvider>
+          </ReduxProvider>
         </body>
-    </html>
+      </html >
+    </ClerkProvider >
   );
 }

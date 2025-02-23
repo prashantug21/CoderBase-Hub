@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  /* Ensure dark text for readability */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    /* White foreground for dark mode */
+    --background-start-rgb: 30, 35, 50;
+    /* Darker, softer background */
+    --background-end-rgb: 15, 80, 160;
+    /* Deep blue for contrast */
+    --text-color-rgb: 220, 220, 220;
+    /* Light gray for readability */
+  }
+}
+
+body {
+  color: black;
+  background: white;
+  min-height: 100vh;
+}
+
+* {
+  font-family: 'Courier New', Courier, monospace;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  transition: 0.1s;
+}
+
+
+html {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.sign-up,
+.sign-in {
+  color: white;
+
+  button {
+    /* Variables */
+    --button_radius: 0.75em;
+    --button_color: white;
+    --button_outline_color: #000000;
+    font-size: 17px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--button_radius);
+    background: var(--button_outline_color);
+  }
+
+  .button_top {
+    display: block;
+    box-sizing: border-box;
+    border: 2px solid var(--button_outline_color);
+    border-radius: var(--button_radius);
+    padding: 0.75em 1.5em;
+    background: var(--button_color);
+    color: var(--button_outline_color);
+    transform: translateY(-0.2em);
+    transition: transform 0.1s ease;
+  }
+
+  button:hover .button_top {
+    /* Pull the button upwards when hovered */
+    transform: translateY(-0.33em);
+  }
+
+  button:active .button_top {
+    /* Push the button downwards when pressed */
+    transform: translateY(0);
+  }
+
+}
