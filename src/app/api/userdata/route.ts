@@ -15,6 +15,18 @@ interface UserProfile {
   gfgdata?: any; // Define more specific types based on GFG return structure
 }
 
+function convertTimestampToDate(timestamp:number) {
+    if (!timestamp || isNaN(timestamp)) return "Invalid Date";
+    if (timestamp < 10000000000) {
+        timestamp *= 1000;
+    }
+    const date = new Date(timestamp);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -72,11 +84,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       codechefdata={
         status:"ok",
         currentRating:codechef.currentRating,
-        maxRating:codechef.maxRating,
+        maxRating:codechef.highestRating,
         contestHistory:codechef.ratingData.map((item: any) => ({
-          rating:item.rating,
+          rating:Number(item.rating),
           contestName:item.name,
-          date:Date.parse(item.end_date),
+          date:convertTimestampToDate(Date.parse(item.end_date)),
         }))
       }
     }
@@ -86,9 +98,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if(codeforces.status==="OK"){
       codeforces0.result.forEach((item: any) => {
         if(item.verdict==="OK"){
-          if(item.problem.rating>maxRating){
-            maxRating=item.problem.rating
-          }
           if(item.problem.rating<=1000){
             easy+=1
           }else if(item.problem.rating<=1600){
@@ -98,14 +107,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           }
         }
       })
+      codeforces.result.forEach((item: any) => {
+        if(item.newRating>maxRating){
+          maxRating=item.newRating
+        }
+      })
       codeforcesdata={
         status:"ok",
         currentRating:codeforces.result[codeforces.result.length-1].newRating,
         contestHistory:codeforces.result.map((item: any) =>{
           return ({
-            rating:item.newRating,
+            rating:Number(item.newRating),
             contestName:item.contestName,
-            date:item.ratingUpdateTimeSeconds,
+            date:convertTimestampToDate(item.ratingUpdateTimeSeconds),
           })
         }),
         maxRating:maxRating,
@@ -136,19 +150,29 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         message:"User not found"
       }
     }
+    maxRating=0;
+    
 
     if(leetcode?.error===undefined){
+      leetcode.data.userContestRankingHistory.map((item: any) => {
+        if(item.attended){
+          if(item.rating>maxRating){
+            maxRating=item.rating
+          }
+        }
+      })
       leetcodedata={
         status:"ok",
         easy:leetcode.data.matchedUser.submitStats.acSubmissionNum[1].count,
         medium:leetcode.data.matchedUser.submitStats.acSubmissionNum[2].count,
         hard:leetcode.data.matchedUser.submitStats.acSubmissionNum[3].count,
         total:leetcode.data.matchedUser.submitStats.acSubmissionNum[0].count,
-        rating:leetcode.data.userContestRankingHistory[leetcode.data.userContestRankingHistory.length-1].rating,
+        currentRating:leetcode.data.userContestRankingHistory[leetcode.data.userContestRankingHistory.length-1].rating,
+        maxRating:maxRating,
         contestHistory:leetcode.data.userContestRankingHistory.filter((item: any) => item.attended).map((item: any) => ({
-          rating:item.rating,
+          rating:Number(item.rating),
           contestName:item.contest.title,
-          date:item.contest.startTime
+          date:convertTimestampToDate(item.contest.startTime)
         })),
       }
     }else{

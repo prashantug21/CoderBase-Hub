@@ -28,11 +28,13 @@ export default function RootLayout({
     <ClerkProvider>
 
       <html lang="en">
-        <body >
+        <body  >
           <ReduxProvider>
             <QueryProvider>
               <Navbar />
-              {children}
+              <div className="bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:16px_16px] min-h-[calc(100vh-76.2px)]">
+                {children}
+              </div>
             </QueryProvider>
           </ReduxProvider>
         </body>

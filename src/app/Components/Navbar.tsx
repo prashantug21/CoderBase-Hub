@@ -8,12 +8,12 @@ import {
 } from "@clerk/nextjs"
 const Navbar = () => {
     return (
-        <div className={"flex justify-between items-center p-4 w-full border-b "}>
+        <div className={"flex justify-between items-center p-4 w-full border-b static top-0 bg-white z-50"}>
             <div className="flex gap-2 justify-start items-center">
                 <Link href={"/"} className={"text-2xl font-bold"}>CoderHub</Link>
-                <Link href={"/"} className={""}>Contests</Link>
+                {/* <Link href={"/"} className={""}>Contests</Link> */}
             </div>
-            <div className="flex sm:gap-3">
+            <div className="flex gap-2 justify-end items-center text-sm">
                 <SignedOut>
                     <SignInButton >
                         <div className="sign-in">
