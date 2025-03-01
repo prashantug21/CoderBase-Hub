@@ -36,7 +36,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       `https://codechef-api.vercel.app/${handle}`,
       `https://codeforces.com/api/user.status?handle=${handle}`,
       `https://codeforces.com/api/user.rating?handle=${handle}`,
-      `https://www.geeksforgeeks.org/gfg-assets/_next/data/-MBGrWa6UiS9evIlTHcyG/user/${handle}.json`
+      `https://www.geeksforgeeks.org/gfg-assets/_next/data/FYklEAyXivT1T8T9JuA9B/user/${handle}.json`
     ];
     
     const leetcodeUrl = "https://leetcode.com/graphql/";
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     maxRating=0;
     
 
-    if(leetcode?.error===undefined){
+    if(leetcode?.data!==undefined){
       leetcode.data.userContestRankingHistory.map((item: any) => {
         if(item.attended){
           if(item.rating>maxRating){

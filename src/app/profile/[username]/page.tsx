@@ -41,13 +41,14 @@ const Page = () => {
         { name: "CodeChef", index: 0, data: query.data[0] },
         { name: "Codeforces", index: 1, data: query.data[1] },
         { name: "Leetcode", index: 3, data: query.data[3] }
-    ].filter(platform => platform.data?.status === "ok");
+    ]
 
     // Safely handle rating chart data
     const currentPlatform = platforms.find(p => p.index === index) || platforms[0];
     const chartData = currentPlatform?.data?.contestHistory || [];
     const currentRating = currentPlatform?.data?.currentRating ? Math.round(currentPlatform.data.currentRating) : "-";
     const maxRating = currentPlatform?.data?.maxRating ? Math.round(currentPlatform.data.maxRating) : "-";
+    console.log(query.data)
 
     return (
         <div className="w-full max-w-7xl mx-auto px-4 py-8">
@@ -102,28 +103,29 @@ const Page = () => {
                 </Card>
             </div>
             <div className="w-full py-8">
-                {platforms.length > 0 ? (
-                    <Card className={`w-full p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0)] rounded-2xl border-2 border-black h-full`}>
-                        <CardHeader>
-                            <CardTitle className="flex flex-col gap-2 ">
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hidden py-2">
-                                    {platforms.map((platform) => (
-                                        <button key={platform.name}>
-                                            <span
-                                                className={`button_top ${index === platform.index ? 'bg-gray-200' : ''}`}
-                                                onClick={() => setIndex(platform.index)}
-                                            >
-                                                {platform.name}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    <span className="text-blue-500 font-semibold">Current Rating: {currentRating}</span>
-                                    <span className="text-green-500 font-semibold">Max Rating: {maxRating}</span>
-                                </div>
-                            </CardTitle>
-                        </CardHeader>
+
+                <Card className={`w-full p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0)] rounded-2xl border-2 border-black h-full`}>
+                    <CardHeader>
+                        <CardTitle className="flex flex-col gap-2 ">
+                            <div className="flex gap-2 overflow-x-auto scrollbar-hidden py-2">
+                                {platforms.map((platform) => (
+                                    <button key={platform.name}>
+                                        <span
+                                            className={`button_top ${index === platform.index ? 'bg-gray-200' : ''}`}
+                                            onClick={() => setIndex(platform.index)}
+                                        >
+                                            {platform.name}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                <span className="text-blue-500 font-semibold">Current Rating: {currentRating}</span>
+                                <span className="text-green-500 font-semibold">Max Rating: {maxRating}</span>
+                            </div>
+                        </CardTitle>
+                    </CardHeader>
+                    {chartData.length > 0 ? (
                         <CardContent>
                             {chartData.length > 0 ? (
                                 <ChartContainer config={chartConfig} className="aspect-auto h-[300px]">
@@ -168,14 +170,15 @@ const Page = () => {
                                 </div>
                             )}
                         </CardContent>
-                    </Card>
-                ) : (
-                    <Card className="w-full p-4 shadow-md rounded-lg border border-gray-200">
-                        <div className="flex justify-center items-center h-[300px]">
-                            <p className="text-gray-500">No platform data available for rating chart</p>
-                        </div>
-                    </Card>
-                )}
+
+                    ) : (
+                        <CardContent className="w-full p-4 shadow-md rounded-lg border border-gray-200">
+                            <div className="flex justify-center items-center h-[300px]">
+                                <p className="text-gray-500">No platform data available for rating chart</p>
+                            </div>
+                        </CardContent>
+                    )}
+                </Card>
             </div>
         </div>
     )

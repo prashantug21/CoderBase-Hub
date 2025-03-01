@@ -53,12 +53,9 @@ html {
 
 
 button {
-  /* Variables */
   --button_radius: 0.75em;
   --button_color: white;
   --button_outline_color: #000000;
-  // font-size: 17px;
-  // font-weight: bold;
   border: none;
   cursor: pointer;
   border-radius: var(--button_radius);
@@ -75,6 +72,14 @@ button {
   color: var(--button_outline_color);
   transform: translateY(-0.2em);
   transition: transform 0.1s ease;
+}
+
+@media (max-width: 550px) {
+  .button_top {
+    padding: 0.5em 1em;
+    font-size: 0.6rem;
+  }
+
 }
 
 button:hover .button_top {
