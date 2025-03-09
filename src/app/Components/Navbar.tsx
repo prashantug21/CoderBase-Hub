@@ -1,12 +1,12 @@
-import Link from "next/link"
 import {
     SignInButton,
     SignUpButton,
     SignedIn,
     SignedOut,
-    UserButton
+    UserButton,
 } from "@clerk/nextjs"
 import Sidebar from "./Sidebar"
+import Link from "next/link"
 const Navbar = () => {
     return (
         <div className="border-b sticky top-0 bg-white z-50 w-full">
@@ -33,7 +33,7 @@ const Navbar = () => {
                         </SignUpButton >
                     </SignedOut>
                     <SignedIn>
-                        <UserButton  />
+                        <UserButton />
                     </SignedIn>
                 </div>
             </div>

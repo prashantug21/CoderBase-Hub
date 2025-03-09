@@ -2,13 +2,14 @@ import { CodeforcesData } from "@/types/model";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: CodeforcesData = {
-    handle: "",
-    easy: 0,
-    medium: 0,
-    hard: 0,
-    total: 0,
-  rating: 0,
-  history: [],
+    handle: null,
+    easy: null,
+    medium: null,
+    hard: null,
+    total: null,
+    currentRating: null,
+    maxRating: null,
+    contestHistory: [],
 };
 
 const codeforcesSlice = createSlice({
@@ -21,13 +22,12 @@ const codeforcesSlice = createSlice({
       state.medium = action.payload.medium;
       state.hard = action.payload.hard;
       state.total = action.payload.total;
-      state.rating = action.payload.rating;
-    },
-    addCodeforcesRatingHistory: (state, action) => {
-      state.history.push(action.payload);
+      state.currentRating = action.payload.currentRating;
+      state.maxRating = action.payload.maxRating;
+      state.contestHistory = action.payload.contestHistory
     },
   },
 });
 
-export const { updateCodeforcesStats, addCodeforcesRatingHistory } = codeforcesSlice.actions;
+export const { updateCodeforcesStats } = codeforcesSlice.actions;
 export default codeforcesSlice.reducer;

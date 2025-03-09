@@ -51,10 +51,18 @@ const Sidebar = () => {
             <UserSearch className="w-7 h-7" />
           </div>
           <span className=" whitespace-nowrap flex items-center transition-all duration-300 group-hover:[text-shadow:1px_1px_1px_0px_rgba(0,0,0)]">
-            Search
+            Dashboard
           </span>
         </Link>
         <Link href="/" className="text-2xl font-bold flex gap-2 justify-center items-center group transition-all duration-300 hover:-translate-y-[2px]">
+          <div className=" rounded-lg p-1 border-solid cursor-pointer border-[2.5px] bg-white border-black outline-none focus-visible:outline-0 w-fit transition-all duration-300 group-hover:shadow-[2px_2px_0px_0px_rgba(0,0,0)] ">
+            <UserSearch className="w-7 h-7" />
+          </div>
+          <span className=" whitespace-nowrap flex items-center transition-all duration-300 group-hover:[text-shadow:1px_1px_1px_0px_rgba(0,0,0)]">
+            Search
+          </span>
+        </Link>
+        <Link href="/edit" className="text-2xl font-bold flex gap-2 justify-center items-center group transition-all duration-300 hover:-translate-y-[2px]">
           <div className=" rounded-lg p-1 border-solid cursor-pointer border-[2.5px] bg-white border-black outline-none focus-visible:outline-0 w-fit transition-all duration-300 group-hover:shadow-[2px_2px_0px_0px_rgba(0,0,0)] ">
             <UserPen className="w-7 h-7" />
           </div>

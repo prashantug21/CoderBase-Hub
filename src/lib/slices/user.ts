@@ -1,14 +1,11 @@
+import { UserData } from "@/types/model";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  name: "",
-  email: "",
-  platforms: {
-    leetcode: "",
-    gfg: "",
-    codeforces: "",
-    codechef: "",
-  },
+const initialState:UserData = {
+  leetcodeHandle:null,
+  codeforcesHandle:null,
+  codechefHandle:null,
+  gfgHandle:null
 };
 
 const userSlice = createSlice({
@@ -16,9 +13,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserInfo: (state, action) => {
-      state.name = action.payload.name;
-      state.email = action.payload.email;
-      state.platforms = action.payload.platforms;
+      state.leetcodeHandle = action.payload.leetcodeHandle;
+      state.codeforcesHandle = action.payload.codeforcesHandle;
+      state.codechefHandle = action.payload.codechefHandle;
+      state.gfgHandle = action.payload.gfgHandle;
     },
   },
 });

@@ -5,13 +5,14 @@ import LeetCode from "leetcode-query";
 
 
 const initialState: LeetCodeData = {
-    handle: "",
-    easy: 0,
-    medium: 0,
-    hard: 0,
-    total: 0,
-  rating: 0,
-  history: [],
+  handle: null,
+  easy: null,
+  medium: null,
+  hard: null,
+  total: null,
+  currentRating: null,
+  maxRating: null,
+  contestHistory: [],
 };
 
 const leetcodeSlice = createSlice({
@@ -24,13 +25,12 @@ const leetcodeSlice = createSlice({
       state.medium = action.payload.medium;
       state.hard = action.payload.hard;
       state.total = action.payload.total;
-      state.rating = action.payload.rating;
-    },
-    addLeetcodeRatingHistory: (state, action:PayloadAction<any>) => {
-      state.history.push(action.payload);
+      state.currentRating = action.payload.currentRating;
+      state.maxRating = action.payload.maxRating;
+      state.contestHistory = action.payload.contestHistory
     },
   },
 });
 
-export const { updateLeetcodeStats, addLeetcodeRatingHistory } = leetcodeSlice.actions;
+export const { updateLeetcodeStats } = leetcodeSlice.actions;
 export default leetcodeSlice.reducer;

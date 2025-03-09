@@ -2,9 +2,10 @@ import { CodeChefData } from "@/types/model";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState :CodeChefData= {
-    handle: "",
-  rating: 0,
-  history: [],
+  handle: null,
+  currentRating: null,
+  maxRating: null,
+  contestHistory: [],
 };
 
 const codechefSlice = createSlice({
@@ -13,14 +14,12 @@ const codechefSlice = createSlice({
   reducers: {
     updateCodechefStats: (state, action) => {
       state.handle = action.payload.handle;
-      state.rating = action.payload.rating;
-      state.history = action.payload.history;   
-    },
-    addCodechefRatingHistory: (state, action:PayloadAction<any>) => {
-      state.history.push(action.payload);
+      state.currentRating = action.payload.rating;
+      state.maxRating = action.payload.maxRating;
+      state.contestHistory = action.payload.history;   
     },
   },
 });
 
-export const { updateCodechefStats, addCodechefRatingHistory } = codechefSlice.actions;
+export const { updateCodechefStats } = codechefSlice.actions;
 export default codechefSlice.reducer;

@@ -1,19 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt, { JwtPayload } from 'jsonwebtoken'; // Using jwt for token verification
-import sql from '@/config/database'; // Adjust the path accordingly
-import { current } from '@reduxjs/toolkit';
-
-
-interface UserProfile {
-  userid: number; // Adjust type according to your database schema
-  username: string;
-  friends: string; // Change to appropriate type if needed
-  leetdata?: any; // Define more specific types based on leetcode return structure
-  codechefdata?: any; // Define more specific types based on codechef return structure
-  codeforcesdata?: any; // Define more specific types based on codeforces return structure
-  gfgdata?: any; // Define more specific types based on GFG return structure
-}
 
 function convertTimestampToDate(timestamp:number) {
     if (!timestamp || isNaN(timestamp)) return "Invalid Date";
@@ -26,8 +11,6 @@ function convertTimestampToDate(timestamp:number) {
     const day = String(date.getUTCDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
-
-
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
