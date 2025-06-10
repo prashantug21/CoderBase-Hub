@@ -4,7 +4,9 @@ import leetcodeReducer from './slices/leetcode'
 import gfgReducer from './slices/gfg'
 import codeforcesReducer from './slices/codeforces'
 import codechefReducer from './slices/codechef'
+import signedINReducer from './slices/signedIn'
 import { handlesApi } from '@/lib/requests/profileData'
+import { friendApi } from './requests/friendData'
 
 export const makeStore=() => configureStore({
   reducer: {
@@ -13,10 +15,13 @@ export const makeStore=() => configureStore({
     gfg:gfgReducer,
     codeforces:codeforcesReducer,
     codechef:codechefReducer,
-    [handlesApi.reducerPath]:handlesApi.reducer
+    signedIn: signedINReducer,
+    [handlesApi.reducerPath]:handlesApi.reducer,
+    [friendApi.reducerPath]: friendApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(handlesApi.middleware),
+    getDefaultMiddleware().concat(handlesApi.middleware, friendApi.middleware),
+   
 })
 
 // Infer the type of makeStore

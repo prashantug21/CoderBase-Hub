@@ -15,3 +15,18 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 }
+
+export async function POST(req: NextRequest) {
+    try {
+        const user = await currentUser();
+        if (!user) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        }
+        const {leetcode,codeforces,codechef,gfg} = await req.json();
+        const res = await sql`UPDATE handles SET leetcode = ${leetcode}, codeforces = ${codeforces}, codechef = ${codechef}, gfg = ${gfg} WHERE id = ${user.id}`;
+        return NextResponse.json( { status: 204 });
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    }
+}

@@ -1,3 +1,4 @@
+import sql from '@/config/database';
 import { NextRequest, NextResponse } from 'next/server';
 
 function convertTimestampToDate(timestamp:number) {
@@ -15,11 +16,15 @@ function convertTimestampToDate(timestamp:number) {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const {handle}=await req.json();
+    const res=await sql`SELECT handles.* FROM handles JOIN users ON handles.id = users.id WHERE users.username = ${handle}`;
+    if (res.length === 0) {
+      return NextResponse.json({ message: 'User handle not found' }, { status: 404 });
+    }
     const urls = [
-      `https://codechef-api.vercel.app/${handle}`,
-      `https://codeforces.com/api/user.status?handle=${handle}`,
-      `https://codeforces.com/api/user.rating?handle=${handle}`,
-      `https://www.geeksforgeeks.org/gfg-assets/_next/data/FYklEAyXivT1T8T9JuA9B/user/${handle}.json`
+      `https://codechef-api.vercel.app/${res[0].codechef}`,
+      `https://codeforces.com/api/user.status?handle=${res[0].codeforces}`,
+      `https://codeforces.com/api/user.rating?handle=${res[0].codeforces}`,
+      `https://www.geeksforgeeks.org/gfg-assets/_next/data/FYklEAyXivT1T8T9JuA9B/user/${res[0].gfg}.json`
     ];
     
     const leetcodeUrl = "https://leetcode.com/graphql/";
@@ -45,7 +50,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           }
         }
       `,
-      variables: { username: handle }
+      variables: { username: res[0].leetcode || "" }
     };
 
 
@@ -164,7 +169,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         message:"User not found"
       }
     }
-    return NextResponse.json([codechefdata,codeforcesdata,gfgdata,leetcodedata], { status: 200 });
+    return NextResponse.json([codechefdata,codeforcesdata,gfgdata,leetcodedata,{leetcode:res[0].leetcode,codechef:res[0].codechef,codeforces:res[0].codeforces,gfg:res[0].gfg}], { status: 200 });
   } catch (error) {
     console.error('Error fetching user profile:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

@@ -53,3 +53,15 @@ export type UserData={
     codechefHandle: string | null;
     gfgHandle: string | null;
 }
+
+export type isSignedIn = {
+    isSignedIn: boolean |undefined;
+    isLoaded: boolean;
+    username: string | null;
+    error: string | null;
+}
+
+export interface Friend extends UserData {
+    id: string;
+    username: string;
+}

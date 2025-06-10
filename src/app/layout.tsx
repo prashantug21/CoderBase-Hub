@@ -10,7 +10,7 @@ import Navbar from "./Components/Navbar";
 
 
 export const metadata: Metadata = {
-  title: "CoderBase Hub",
+  title: "CoderHub",
   description: "All coding profiles in one place",
   icons: {
     icon: {

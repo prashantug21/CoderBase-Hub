@@ -1,8 +1,8 @@
-# CoderBase Hub
+# CoderHub
 
 ## Project Overview
 
-CoderBase Hub is a full-stack web application that allows users to track, analyze, and connect with coding profiles across various platforms such as LeetCode, Codeforces, CodeChef, and GeeksforGeeks. The project is mainly built with Next.js.
+CoderHub is a full-stack web application that allows users to track, analyze, and connect with coding profiles across various platforms such as LeetCode, Codeforces, CodeChef, and GeeksforGeeks. The project is mainly built with Next.js.
 
 ## Table of Contents
 

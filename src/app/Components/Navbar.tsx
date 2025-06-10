@@ -1,15 +1,30 @@
+'use client'
 import {
     SignInButton,
     SignUpButton,
     SignedIn,
     SignedOut,
     UserButton,
+    useUser,
 } from "@clerk/nextjs"
 import Sidebar from "./Sidebar"
 import Link from "next/link"
+import { useEffect } from "react";
+import { useAppDispatch } from "@/lib/hooks";
+import { setSignIn } from "@/lib/slices/signedIn";
 const Navbar = () => {
+    const { isSignedIn, user, isLoaded } = useUser();
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(setSignIn({
+            isSignedIn: isSignedIn,
+            isLoaded: isLoaded,
+            username: user?.username || null,
+            error: null
+        }))
+    }, [isSignedIn, isLoaded, user]);
     return (
-        <div className="border-b sticky top-0 bg-white z-50 w-full">
+        <div className="border-b sticky top-0 bg-white z-50 w-full max-h-[80px]">
             <div className={"flex justify-between items-center p-4 w-full   max-w-[1400px] mx-auto"}>
                 <div className="flex gap-2 justify-start items-center">
                     <Sidebar />

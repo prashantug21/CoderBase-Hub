@@ -53,11 +53,15 @@ export async function POST(req: Request) {
   if (evt.type === 'user.created') {
     const { username, image_url, first_name, last_name } = evt.data
     await sql`INSERT INTO users(id,username,avatar,first,last) VALUES(${id},${username},${image_url},${first_name},${last_name})`;
+    await sql`INSERT INTO handles(id,leetcode,codeforces,codechef,gfg) VALUES(${id},'_','_','_','_')`;
   }else if(evt.type === 'user.updated'){
     const { username, image_url, first_name, last_name } = evt.data
     await sql`UPDATE users SET username = ${username}, avatar = ${image_url}, first = ${first_name}, last = ${last_name} WHERE id = ${id}`;
   }else if(evt.type === 'user.deleted'){
     await sql`DELETE FROM users WHERE id = ${id}`;
+    await sql`DELETE FROM handles WHERE id = ${id}`;
+    await sql`DELETE FROM friends0 WHERE id = ${id}`;
+    await sql`DELETE FROM friends0 WHERE friend_id = ${id}`;
   }
 
   return new Response('Webhook received', { status: 200 })
